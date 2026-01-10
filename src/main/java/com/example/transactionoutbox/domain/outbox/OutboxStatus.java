@@ -1,7 +1,6 @@
 package com.example.transactionoutbox.domain.outbox;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum OutboxStatus {

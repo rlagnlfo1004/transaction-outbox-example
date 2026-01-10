@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "outbox_message")
+@Table(name = "outbox_messages")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OutboxMessage {
