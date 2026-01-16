@@ -1,7 +1,7 @@
 package com.example.transactionoutbox.infrastructure.outbox;
 
 import com.example.transactionoutbox.domain.outbox.OutboxMessage;
-import com.example.transactionoutbox.domain.project.event.ProjectApproveEvent;
+import com.example.transactionoutbox.domain.project.event.ProjectApprovedEvent;
 import com.example.transactionoutbox.domain.project.event.ProjectRejectedEvent;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class OutboxEventListener {
     private final ObjectMapper objectMapper;
 
     @EventListener
-    public void handelProjectApprovedEvent(ProjectApproveEvent event) {
+    public void handelProjectApprovedEvent(ProjectApprovedEvent event) {
         try {
             String payload = objectMapper.writeValueAsString(event);
 

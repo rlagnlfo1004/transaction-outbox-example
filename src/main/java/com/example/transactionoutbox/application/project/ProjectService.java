@@ -1,7 +1,7 @@
 package com.example.transactionoutbox.application.project;
 
 import com.example.transactionoutbox.domain.project.ProjectRequest;
-import com.example.transactionoutbox.domain.project.event.ProjectApproveEvent;
+import com.example.transactionoutbox.domain.project.event.ProjectApprovedEvent;
 import com.example.transactionoutbox.infrastructure.project.ProjectRequestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ProjectService {
 
         // 도메인 이벤트 발행 (Spring Event)
         eventPublisher.publishEvent(
-                new ProjectApproveEvent(
+                new ProjectApprovedEvent(
                         projectRequest.getProjectRequestId(),
                         projectRequest.getUserId(),
                         LocalDateTime.now()
