@@ -21,7 +21,7 @@ public class OutboxMessage {
     private String aggregateType;  // 어떤 도메인 엔티티 관련인지 (예: "PROJECT_APPLICATION")
 
     @Column(nullable = false)
-    private String aggregateId;    // 해당 엔티티의 ID
+    private Long aggregateId;    // 해당 엔티티의 ID
 
     @Column(nullable = false, length = 100)
     private String eventType;      // 이벤트 타입 (예: "PROJECT_APPROVED")
@@ -44,7 +44,7 @@ public class OutboxMessage {
         this.status = OutboxStatus.READY;
     }
 
-    public static OutboxMessage create(String aggregateType, String aggregateId, String eventType, String payload) {
+    public static OutboxMessage create(String aggregateType, Long aggregateId, String eventType, String payload) {
         OutboxMessage message = new OutboxMessage();
         message.aggregateType = aggregateType;
         message.aggregateId = aggregateId;

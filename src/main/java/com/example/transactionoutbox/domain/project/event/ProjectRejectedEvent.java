@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class ProjectApproveEvent {
+public class ProjectRejectedEvent {
     private Long projectRequestId;
     private Long userId;
     private LocalDateTime approvedAt;
