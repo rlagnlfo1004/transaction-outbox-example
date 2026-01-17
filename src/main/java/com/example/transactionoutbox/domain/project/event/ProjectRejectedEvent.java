@@ -10,5 +10,5 @@ import java.time.LocalDateTime;
 public class ProjectRejectedEvent {
     private Long projectRequestId;
     private Long userId;
-    private LocalDateTime approvedAt;
+    private LocalDateTime rejectedAt;
 }
