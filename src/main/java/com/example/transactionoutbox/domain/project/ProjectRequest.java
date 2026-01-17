@@ -44,4 +44,12 @@ public class ProjectRequest {
         this.status = RequestStatus.REJECTED;
         this.processedAt = LocalDateTime.now();
     }
+
+    public static ProjectRequest createNew(Long userId) {
+        ProjectRequest projectRequest = new ProjectRequest();
+        projectRequest.userId = userId;
+        projectRequest.status = RequestStatus.PENDING;
+        projectRequest.createdAt = LocalDateTime.now();
+        return projectRequest;
+    }
 }
