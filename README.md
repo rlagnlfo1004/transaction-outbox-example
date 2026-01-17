@@ -256,20 +256,3 @@ INFO  c.e.t.i.o.OutboxMessagePublisher : Found 1 messages to publish
 INFO  c.e.t.i.m.DiscordMessageSender : ✅ 프로젝트 신청이 승인되었습니다. (신청 ID: 1)
 INFO  c.e.t.i.o.OutboxMessagePublisher : Message published successfully: id=1, eventType=PROJECT_APPROVED
 ```
-
-## 문제 해결
-
-### 데이터베이스 연결 오류
-- MySQL이 실행 중인지 확인
-- 환경변수가 올바르게 설정되었는지 확인
-- 데이터베이스가 생성되었는지 확인
-
-### 메시지가 전송되지 않음
-- 스케줄러가 활성화되었는지 확인 (`@EnableScheduling`)
-- Outbox 테이블에 READY 상태 메시지가 있는지 확인
-- 로그에서 폴링 작업 실행 여부 확인
-
-## 라이센스
-
-MIT License
-
