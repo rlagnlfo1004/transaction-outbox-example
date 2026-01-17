@@ -9,6 +9,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
@@ -22,29 +24,32 @@ public class OutboxEventListener {
     private final ObjectMapper objectMapper;
 
 //    @Async
-//    @Transactional(propagation = Propagation.REQUIRES_NEW)
-@EventListener
-public void handelProjectApprovedEvent(ProjectApprovedEvent event) {
-    try {
-        String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
-        log.info("eventListener start [transactionName = {}]", transactionName);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+//    @EventListener
+    @TransactionalEventListener
+//    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    public void handelProjectApprovedEvent(ProjectApprovedEvent event) {
+        try {
+            String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
+            log.info("OutboxEventListener [transactionName = {}]", transactionName);
+            log.info("EventListener start");
 
-        String payload = objectMapper.writeValueAsString(event);
+            String payload = objectMapper.writeValueAsString(event);
 
-        OutboxMessage outboxMessage = OutboxMessage.create(
-                "PROJECT_REQUEST",
-                event.getProjectRequestId(),
-                "PROJECT_APPROVED",
-                payload
-        );
+            OutboxMessage outboxMessage = OutboxMessage.create(
+                    "PROJECT_REQUEST",
+                    event.getProjectRequestId(),
+                    "PROJECT_APPROVED",
+                    payload
+            );
 
-        outboxMessageRepository.save(outboxMessage);
-        log.info("Outbox message saved: {}", outboxMessage.getId());
-    } catch (JacksonException e) {
-        log.error("Failed to serialize event", e);
-        throw new RuntimeException("Event serialization failed", e);
+            outboxMessageRepository.save(outboxMessage);
+            log.info("Outbox message saved: {}", outboxMessage.getId());
+        } catch (JacksonException e) {
+            log.error("Failed to serialize event", e);
+            throw new RuntimeException("Event serialization failed", e);
+        }
     }
-}
 
     @EventListener
     @Transactional(propagation = Propagation.REQUIRES_NEW)
