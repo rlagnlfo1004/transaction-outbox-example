@@ -1,6 +1,7 @@
 package com.example.transactionoutbox.infrastructure.outbox;
 
 import com.example.transactionoutbox.domain.outbox.OutboxMessage;
+import com.example.transactionoutbox.infrastructure.message.MessageSender;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
