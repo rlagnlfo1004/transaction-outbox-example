@@ -47,7 +47,6 @@ public class ProjectService {
                         LocalDateTime.now()
                 )
         );
-
         transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
         log.info("ProjectService [transactionName = {}]", transactionName);
         log.info("complete event publish");
