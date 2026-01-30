@@ -4,13 +4,16 @@ import com.example.transactionoutbox.domain.project.ProjectRequest;
 import com.example.transactionoutbox.domain.project.event.ProjectApprovedEvent;
 import com.example.transactionoutbox.domain.project.event.ProjectRejectedEvent;
 import com.example.transactionoutbox.infrastructure.project.ProjectRequestRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -32,6 +35,10 @@ public class ProjectService {
         // 도메인 로직 실행
         projectRequest.approve();
 
+        String transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
+        log.info("ProjectService [transactionName = {}]", transactionName);
+        log.info("before event publish");
+
         // 도메인 이벤트 발행 (Spring Event)
         eventPublisher.publishEvent(
                 new ProjectApprovedEvent(
@@ -40,6 +47,10 @@ public class ProjectService {
                         LocalDateTime.now()
                 )
         );
+
+        transactionName = TransactionSynchronizationManager.getCurrentTransactionName();
+        log.info("ProjectService [transactionName = {}]", transactionName);
+        log.info("complete event publish");
     }
 
     public void rejectProject(Long projectRequestId) {
@@ -57,5 +68,6 @@ public class ProjectService {
                         LocalDateTime.now()
                 )
         );
+        log.info("complete event publish");
     }
 }
